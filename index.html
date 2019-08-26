@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+	<head>
+			<meta http-equiv="Content-Security-Policy" content="default-src * gap://ready file:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *;img-src 'self' data: *">
+			
+		<script src="cordova.js"></script>
+		
+		<script type="text/javascript">
+			var require = {
+				urlArgs : "bust="+ new Date().getTime()
+			};
+                </script>
+                
+                <script type="text/javascript">
+			var wpak_open_url = '';
+			window.handleOpenURL = function( url ) {
+			    wpak_open_url = url;
+			};
+		</script>
+
+		<script data-main="core/launch.js" src="vendor/require.js"></script>
+	</head>
+	<body>
+		<div id="app-layout"></div>
+		<div id="app-debug-panel"></div>
+		<div id="app-debug-button"></div>
+	</body>
+</html>
