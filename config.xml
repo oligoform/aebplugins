@@ -1,93 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns       = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
-        id          = "ameisernenband"
+        id          = "com.oligoform.ameisernenband"
         versionCode = ""
-        version     = "1.4" >
+        version     = "1.7" >
 
 	<name>Am Eisernen Band</name>
 
 	<description>Das Eiserne Band f&#252;hrt ausgehend von der Stadt Halle (Saale) auf den h&#246;chsten Berg Mitteldeutschlands, den Brocken. Es ist eine touristische Ausflugsverkehrsachse, die sieben historisch bedeutsame Eisenbahnstrecken mit unterschiedlichen Spurweiten verbindet.</description>
 
-	<author href="https://oligoform.com/ameisernenband/" email="ameisernenband-ios@oligoform.com">Oliver Bunke</author>
+	<author href="https://oligoform.com/ameisernenband/" email="ameisernenband@oligoform.com">Oliver Bunke</author>
 
-	<gap:platform name="ios" />
-	<gap:platform name="android" />
+	<platform name="android" />
 
-	
 	<!-- General preferences -->
+	<preference name="android-targetSdkVersion" value="28" />
+	<preference name="buildArchitecture" value="arm" />
+	<preference name="android-build-tool" value="gradle" />
 
 	<preference name="phonegap-version" value="cli-9.0.0" />
 	<preference name="permissions" value="none"/>
 
-	<preference name="DisallowOverscroll" value="true" />
+	<preference name="disallowOverscroll" value="true" />
 	<preference name="webviewbounce" value="false" />
 
-<!-- Custom preferences -->
-<edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
-    <string>Bitte lassen Sie den Zugriff auf Ihren Standort zu, damit wir Ihnen Angebote in Ihrer Nähe zeigen können.</string>
-</edit-config>
-
-<gap:config-file platform="ios" parent="CFBundleDevelopmentRegion" mode="replace">  
-        <array>  
-            <string>en-US</string>  
-        </array>  
-    </gap:config-file>  
-    <gap:config-file platform="ios" parent="CFBundleLocalizations" mode="replace">  
-        <array>              
-            <string>en</string>  
-            <string>de</string>          
-        </array>  
-    </gap:config-file>  <!-- olg20190820-->
+	<!-- Custom preferences -->
 
 	<!-- PhoneGap plugin declaration -->
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
 	<plugin name="cordova-plugin-network-information" source="npm" />
+	<plugin name="cordova-plugin-whitelist" source="npm" />
 	<plugin name="cordova-plugin-splashscreen" source="npm" />
 	<plugin name="cordova-plugin-device" source="npm" />
 	<plugin name="cordova-plugin-statusbar" source="npm" />
+	<plugin name="cordova-build-architecture" spec="https://github.com/MBuchalik/cordova-build-architecture.git#v1.0.4" source="git" />
 	<plugin name="cordova-plugin-geolocation" spec="~4.0.2" />
+	<plugin name="cordova-plugin-vibration" spec="~3.1.1" />
+
+	<!-- Whitelist policy  -->
+	<access origin="*" />
+	<allow-intent href="*" />
+	<allow-navigation href="*" />
 
 	<!-- SplashScreen configuration -->
-	<preference name="AutoHideSplashScreen" value="false" />
-	<preference name="FadeSplashScreenDuration" value="1000" />
+	<preference name="SplashScreen" value="splash" />
+	<preference name="SplashScreenDelay" value="10000" />
+	<preference name="FadeSplashScreenDuration" value="300" />
 	<preference name="ShowSplashScreenSpinner" value="false" />
-	<gap:config-file platform="ios" parent="UIStatusBarHidden"><true/></gap:config-file>
-	<gap:config-file platform="ios" parent="UIViewControllerBasedStatusBarAppearance"><false/></gap:config-file>
-
-<!-- olg20190820-->
-		<preference name="Fullscreen" value="true" /> 
-	        <access origin="*" /> 
-
-			<platform name="ios"> <preference name="StatusBarOverlaysWebView" value="true" /> </platform> 
-			<preference name="StatusBarBackgroundColor" value="#821221" />
-			<preference name="StatusBarStyle" value="blacktranslucent" />
-			<preference name="StatusBarDefaultScrollToTop" value="true" />
-
-
-
-			<!-- olg20190820-->
 
 	<!-- Icons and Splashscreens declaration -->
 
-	<icon src="icons/icon-60@3x.png" gap:platform="ios" width="180" height="180" />
-	<icon src="icons/icon-60@2x.png" gap:platform="ios" width="120" height="120" />
-	<icon src="icons/icon@2x.png" gap:platform="ios" width="114" height="114" />
-	<icon src="icons/icon-40@2x.png" gap:platform="ios" width="80" height="80" />
-	<icon src="icons/icon-60.png" gap:platform="ios" width="60" height="60" />
-	<icon src="icons/icon-small@2x.png" gap:platform="ios" width="58" height="58" />
-	<icon src="icons/icon.png" gap:platform="ios" width="57" height="57" />
-	<icon src="icons/icon-small.png" gap:platform="ios" width="29" height="29" />
+	<icon src="icon.png" gap:platform="android" />
+	<icon src="icons/icon-wp-appkit-ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
+	<icon src="icons/icon-wp-appkit-mdpi.png" gap:platform="android" gap:qualifier="mdpi" />
+	<icon src="icons/icon-wp-appkit-hdpi.png" gap:platform="android" gap:qualifier="hdpi" />
+	<icon src="icons/icon-wp-appkit-xhdpi.png" gap:platform="android" gap:qualifier="xhdpi" />
+	<icon src="icons/icon-wp-appkit-xxhdpi.png" gap:platform="android" gap:qualifier="xxhdpi" />
+	<icon src="icons/icon-wp-appkit-xxxhdpi.png" gap:platform="android" gap:qualifier="xxxhdpi" />
 	
-	<gap:splash src="splashscreens/Default-736h-Lanscape@3x~iphone.png" gap:platform="ios" width="2208" height="1242" />
-	<gap:splash src="splashscreens/Default-736h-Portrait@3x~iphone.png" gap:platform="ios" width="1242" height="2208" />
-	<gap:splash src="splashscreens/Default-667h-Landscape@2x~iphone.png" gap:platform="ios" width="1334" height="750" />
-	<gap:splash src="splashscreens/Default-667h-Portrait@2x~iphone.png" gap:platform="ios" width="750" height="1334" />
-	<gap:splash src="splashscreens/Default-568h-Landscape@2x~iphone.png" gap:platform="ios" width="1136" height="640" />
-	<gap:splash src="splashscreens/Default-568h-Portrait@2x~iphone.png" gap:platform="ios" width="640" height="1136" />
-	<gap:splash src="splashscreens/Default-Landscape@2x~iphone.png" gap:platform="ios" width="960" height="640" />
-	<gap:splash src="splashscreens/Default-Portrait@2x~iphone.png" gap:platform="ios" width="640" height="960" />
-	<gap:splash src="splashscreens/Default-Landscape~iphone.png" gap:platform="ios" width="480" height="320" />
-	<gap:splash src="splashscreens/Default-Portrait~iphone.png" gap:platform="ios" width="320" height="480" />
+	<gap:splash src="splash.9.png" gap:platform="android" />
+	<gap:splash src="splashscreens/splashscreen-wp-appkit-ldpi.9.png" gap:platform="android" gap:qualifier="ldpi" />
+	<gap:splash src="splashscreens/splashscreen-wp-appkit-mdpi.9.png" gap:platform="android" gap:qualifier="mdpi" />
+	<gap:splash src="splashscreens/splashscreen-wp-appkit-hdpi.9.png" gap:platform="android" gap:qualifier="hdpi" />
+	<gap:splash src="splashscreens/splashscreen-wp-appkit-xhdpi.9.png" gap:platform="android" gap:qualifier="xhdpi" />
+	<gap:splash src="splashscreens/splashscreen-wp-appkit-xxhdpi.9.png" gap:platform="android" gap:qualifier="xxhdpi" />
+	<gap:splash src="splashscreens/splashscreen-wp-appkit-xxxhdpi.9.png" gap:platform="android" gap:qualifier="xxxhdpi" />
 	
 </widget>

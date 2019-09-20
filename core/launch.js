@@ -2,7 +2,7 @@ require.config({
 
     baseUrl: 'vendor',
 
-    waitSeconds: 10,
+    waitSeconds: 100, //https://stackoverflow.com/questions/14279962/require-js-error-load-timeout-for-modules-backbone-jquerymobile
 
     paths: {
         core: '../core',
@@ -18,13 +18,7 @@ require.config({
         },
         'underscore': {
             exports: '_'
-        },   
-		'leaflet': {
-            exports: 'L'
-        }, 
-        'leaflet.markercluster': {
-            deps: ['leaflet']
-        }
+		}
     }
 });
 
