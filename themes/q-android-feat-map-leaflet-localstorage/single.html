@@ -6,7 +6,7 @@
  * Handler for image loading error: displayDefaultImage() added in functions.js as a template's parameter
  -->
 
-<div id="content" class="content single-template">
+ <div id="content" class="content single-template">
 
     <div class="post-title">
 
@@ -44,6 +44,70 @@
     <div id="single-content" class="single-content">
 
         <%= post.content %>
+        
+<!--         olg -->
+<% if(  post.freitext ){ %>
+	<%= post.freitext %>
+	<hr>
+<% } %>
+
+    <% if( post.bilder  && post.bilder != '' ){ %>
+    <div class="row">
+   		<% _.each( post.bilder, function( bilder ){ %> 
+
+			
+                
+	                   <figure class="figure col-md-4">
+<img class="figure-img img-fluid" src="<%= bilder.guid %>" alt="<%= bilder.post_title %>">
+					<figcaption class="figure-caption"><%= bilder.post_title %></figcaption>
+				</figure>
+
+		<% }); %>
+		</div>
+   <% } %>
+
+
+
+
+    <% if(  post.link_zum_produkt && !post.linkname ){ %>
+        <a class="external" target="_blank" href="<%= post.link_zum_produkt %>"><%= post.link_zum_produkt %></a>
+        <hr>
+    <% } %>	
+    <!-- sorry, else doesnt work-->
+    <% if(  post.link_zum_produkt && post.linkname ){ %>
+        <a class="external" target="_blank" href="<%= post.link_zum_produkt %>"><%= post.linkname %></a>
+<hr>
+    <% } %>
+
+
+    <% if( post.categories && post.categories != '' ){ %> 
+    <div class="categories">
+	    <em>Kategorien:</em><br>
+   		<% _.each( post.categories, function( categories ){ %>
+
+                <a class="btn btn-sm btn-light content-item has-ripple-feedback" href="/category/<%= categories.slug %>">
+					<%= categories.name %>
+				</a>
+
+		<% }); %>
+<hr>
+</div>   
+<% } %>
+
+    <% if( post.tags && post.tags != '' ){ %>
+    <div class="tags">
+	    Tags:<br>
+   		<% _.each( post.tags, function( tags ){ %> 
+
+                <a class="btn btn-light btn-sm content-item has-ripple-feedback" href="/tag/<%= tags.slug %>">
+					<%= tags.name %>
+				</a>
+
+		<% }); %>
+</div>   
+<% } %>
+
+<!-- olg  -->
 
     </div>
     
