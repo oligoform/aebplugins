@@ -150,7 +150,7 @@ define(function (require) {
                     readMoreText.setAttribute('href', '#single/posts/' + id); //olg test 20190815
                     readMoreText.setAttribute('class', 'readmore fa fa-window-restore');
                     readMoreText.setAttribute('data-id', notLocId);
-                    readMoreText.innerText = ' Info ';
+                    readMoreText.innerText = '  ';
                     readMoreText.outerHTML.replace(/["]/g, "'");
                     readMoreText.onclick = function (e) {
                         e.preventDefault();
@@ -171,14 +171,18 @@ define(function (require) {
 
 
                         if (angebotObj.angebote) {
-
-                            if (angebotObj.angebote.length = 1) {
-
+                            if (angebotObj.angebote.length === 1) { 
+                            
                                 let angeboteAbfrage = JSON.parse(localStorage.getItem('Items-posts-' + angebotObj.angebote));
                                 let angebotOrt = Object.assign(angeboteOrte, angeboteAbfrage);
                                 angebote += `{"${angebotObj.angebote}": ${JSON.stringify(angebotOrt)}},`;
                             } else {
-                                console.log(angebotObj.angebote.length);
+
+                                angebotObj.angebote.forEach (element => {
+                                    let angeboteAbfrage = JSON.parse(localStorage.getItem('Items-posts-' + element));
+                                    let angebotOrt = Object.assign(angeboteOrte, angeboteAbfrage);
+                                    angebote += `{"${angebotObj.angebote}": ${JSON.stringify(angebotOrt)}},`;                                    
+                                });
                             }
                         }
                     });
@@ -189,7 +193,7 @@ define(function (require) {
                     return JSON.parse(angebote);
 
                 }).then(data => {
-                    console.log(data);
+                    //console.log(data);
                     let geojsonString = ' {"type": "FeatureCollection", "features": [ ';
                     data.forEach(function (entry, index) {
 
@@ -197,15 +201,21 @@ define(function (require) {
 
                             let arrayId = Object.keys(entry)[0];
                             let location_id = entry[arrayId].id;
-                            let location_name = entry[arrayId].title !== null ? entry[arrayId].title : '';
+                            let location_name = entry[arrayId].title !== null ? "<a href='#single/posts/" + entry[arrayId].id + "'>" + entry[arrayId].title + "</a>" : '';
                             let location_address = entry[arrayId].address.address !== null ? entry[arrayId].address.address : '';
                             let location_postcode = entry[arrayId].address.postcode !== null ? entry[arrayId].address.postcode : '';
                             let location_region = entry[arrayId].address.region !== null ? entry[arrayId].address.region + '<br />' : '';
                             let barrierefrei = entry[arrayId].barrierefrei === '1' ? "<i class='fa fa-wheelchair' aria-hidden='true'></i> barrierefrei <br />" : "";
-                            let email = entry[arrayId].email !== "" ? ` <a href='mailto: ${entry[arrayId].email}'><i class='fa fa-envelope-o' aria-hidden='true'></i> Email</a>` : ''; //TemplateString MM
-                            let telefonnummer = entry[arrayId].telefonnummer !== "" ? "<i class='fa fa-phone' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Telefon: </span>" + entry[arrayId].telefonnummer : '';
+                            let anfahrt = "<a title='Route von hier mit Google-Maps in neuem Fenster' target='_blank' href='https://maps.google.com/maps?daddr=" + entry[arrayId].location.lat + "," + entry[arrayId].location.lon + "&amp;saddr='> <i class='fa fa-map-signs' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Route </span></a>";
+                            
+                            let category = entry[arrayId].categories !== null ? entry[arrayId].categories[0]/* .slug */ : ''; //ToDo: fix error & set first cat as class for popup - later as type for feature
+                            // console.log(category);
+                            // console.log(entry[arrayId].id + ' ID: ' + index);
+
+                            let email = entry[arrayId].email !== "" ? ` <a href='mailto: ${entry[arrayId].email}'><i class='fa fa-envelope-o' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Email</span> </a>` : ''; //TemplateString MM
+                            let telefonnummer = entry[arrayId].telefonnummer !== "" ? "<a href='tel://"+ entry[arrayId].telefonnummer+"'><i class='fa fa-phone' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Telefon: </span>" + entry[arrayId].telefonnummer + "</a>" : '';
                             let frei = getMoreContent(location_id, arrayId, entry[arrayId].freitext);
-                            let popupContent = `<div id='${location_id}'><b>${location_name}</b> <br /> ${location_address} <br /> ${location_postcode} ${location_region}${barrierefrei}${telefonnummer} <footer>${email} ${frei}</footer> </div>`; //olg test 20190815
+                            let popupContent = `<div id='${location_id}'><b>${location_name}</b> <br /> ${location_address} <br /> ${location_postcode} ${location_region}${barrierefrei}${telefonnummer} <footer>${email} ${anfahrt} ${frei}</footer> </div>`; //olg test 20190815
 
                             geojsonString += `{"type":"Feature","properties": {"name": "${location_name}", "popupContent": "${popupContent}" },
                        "geometry": {"type": "Point","coordinates": [${entry[arrayId].location.lon}, ${entry[arrayId].location.lat}]}},`;
@@ -215,7 +225,7 @@ define(function (require) {
                     geojsonString = geojsonString.replace(/,\s*$/, "");
 
                     geojsonString += ']}';
-                            console.log(geojsonString)
+                            //console.log(geojsonString)
 
                    return geojsonString;
 
