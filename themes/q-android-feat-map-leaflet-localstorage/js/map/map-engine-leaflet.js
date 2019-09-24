@@ -108,6 +108,15 @@ define(function (require) {
                                                     }).addTo(this.get('map_leaflet'));
                 */
                         var watchID;
+                        function clearWatch() {
+        if (watchID != null || watchID !== 'undefined') {
+	        console.log(watchID); 
+	        console.log('cleared watchID');
+            navigator.geolocation.clearWatch(watchID);
+            watchID = null;
+        }
+    };
+                        
                 var extentControl = L.Control.extend({
                     options: {
                         position: 'topleft'
@@ -119,12 +128,17 @@ define(function (require) {
                         $(container).attr('title', 'alles anzeigen');
                         $(container).html('<i class="fa fa-map-o" aria-hidden="true"></i>');
                         $(container).on('click', function () {
-	                        if (watchID !== '') { navigator.geolocation.clearWatch(watchID); console.log(watchID)};
-                            map.fitBounds(bounds);
+	                        clearWatch();
+	                        map.fitBounds(bounds);
                         });
                         return container;
                     }
                 })
+
+
+
+
+
 
                 this.get('map_leaflet').addControl(new extentControl());
 
@@ -138,15 +152,52 @@ define(function (require) {
                         $(container).attr('title', 'Meine Position anzeigen');
                         $(container).html('<i class="fa fa-street-view" aria-hidden="true"></i>');
                         $(container).on('click', function () {
-	                        
-	                        if (watchID !== '') { navigator.geolocation.clearWatch(watchID); watchID = ''; console.log(watchID)};
+	                        $(container).html('<i class="fa fa-circle-o-notch fa-spin fa-fw" aria-hidden="true"></i>');
+	                        console.log('geo click');
+// 	                        if (watchID !== 'undefined') { navigator.geolocation.clearWatch(watchID);/*  watchID = ''; */ console.log(watchID)};
     var startPos;
     if (navigator.geolocation) {
-	    if (watchID === '') {
+// 	    var options = { enableHighAccuracy: true, maximumAge: 100, timeout: 60000 };
+	    console.log('geo enabled');
+	    
+	    var options = {
+  enableHighAccuracy: true,
+  timeout: 60000,
+  maximumAge: 500
+};
+
+function success(pos) {
+  var crd = pos.coords;
+        map.flyTo([pos.coords.latitude, pos.coords.longitude], 14);
+        console.log(watchID);
+        setTimeout(function() { 
+        $(container).html('<i class="fa fa-street-view" aria-hidden="true"></i>');
+    }, 2000);
+
+/*
+
+  alert('Your current position is:');
+  alert(`Latitude : ${crd.latitude}`);
+  alert(`Longitude: ${crd.longitude}`);
+  alert(`More or less ${crd.accuracy} meters.`);
+*/
+}
+
+function error(err) {
+  alert(`ERROR(${err.code}): ${err.message}`);
+}
+
+watchID = navigator.geolocation.watchPosition(success, error, options);
+/*
+navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+// 	    if (watchID !== 'undefined') {
       navigator.geolocation.getCurrentPosition(function(position) {
         startPos = position;
-        
-        map.flyTo([startPos.coords.latitude, startPos.coords.longitude], 14);
+        console.log(position);
+        console.log('inside geo');
+
+        map.flyTo([position.coords.latitude, position.coords.longitude], 14);
       }, function(error) {
         console.log("Error occurred. Error code: "+error.code);
         // error.code can be:
@@ -157,11 +208,12 @@ define(function (require) {
       });
       
       watchID = navigator.geolocation.watchPosition(function(position) {
-        map.flyTo([startPos.coords.latitude, startPos.coords.longitude], 14);
+        map.flyTo([position.coords.latitude, position.coords.longitude], 14);
         console.log('watchPosition: ');
         console.log(watchID);
       });
-      };
+*/
+//       };
   }; //geolocation end
 
                         });
