@@ -25,6 +25,7 @@ define(function (require) {
 
 
     var MapModel = require('theme/js/map/map-model');
+var olgmap = '';
 
 
     // test locate inline
@@ -62,13 +63,11 @@ define(function (require) {
 
 
 
-
         /**
          * Initialize map data and leaflet map
          */
         initMap: function () {
             if (!this.isMapActive() && $('#' + this.get('id')).length) {
-
                 //Instanciate new map model:
                 this.set('map_data', new MapModel(_.extend({
                     id: this.get('id')
@@ -80,15 +79,14 @@ define(function (require) {
                 //Clear all previous map instances:
                 this.remove();
 
-
+olgmap = L.map(this.get('id'));
                 var southWest = L.latLng(50.9997, 10.5304),
                     northEast = L.latLng(52.3459, 12.1268),
                     bounds = L.latLngBounds(southWest, northEast);
                 //Initialize Leaflet map:
-
                 var center = [this.get('map_data').get('center').lat, this.get('map_data').get('center').lng];
-                this.set('map_leaflet', L.map(this.get('id')).setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                this.set('map_leaflet', olgmap.setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
+                L.tileLayer('https://am-eisernen-band.de/wp-content/cache/osm-tiles/{s}/{z}/{x}/{y}.png', {
                     zoom: this.get('map_data').get('zoom'),
                     maxZoom: 18,
                     minZoom: 9,
@@ -97,7 +95,16 @@ define(function (require) {
                     //maxBoundsViscosity: 1,
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(this.get('map_leaflet'));
+console.log(olgmap);
+/*
+                    console.log("this ");
+                    console.log(this);
+*/
+//                     var olgmapvar = this.get('map_leaflet');
 
+// L.marker([51.473618,11.629522]).addTo(this.get('map_leaflet')).bindPopup("Standort innerhalb 20 Metern").openPopup();
+
+                    
                         var watchID;
                         function clearWatch() {
         if (watchID != null || watchID !== 'undefined') {
@@ -112,13 +119,66 @@ define(function (require) {
     this.get('map_leaflet').on('dragend', () => {
             clearWatch();
         });
+
+
+//onLocationFound show marker
+		var marker;
+        var circles;
+        function onLocationFound(e) { //problem with scope. https://stackoverflow.com/questions/18388288/how-do-you-add-marker-to-map-using-leaflet-map-onclick-function-event-handl
+	        console.log('onLocationFound: ');
+	        console.log(e);
+	        console.log(e.coords.latitude);
+	        console.log(e.coords.longitude);
+	        console.log(e.coords.accuracy);
+	        console.log(this);
+	        var radius = e.coords.accuracy / 2;
+
+// L.marker([51.473618,11.629522]).addTo(olgmap).bindPopup("Standort innerhalb 20 Metern").openPopup();
+if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
+        olgmap.removeLayer(circles);
+      olgmap.removeLayer(marker);
+    }  
+         circles = new L.circle([e.coords.latitude, e.coords.longitude], radius);
+marker = new L.marker([e.coords.latitude, e.coords.longitude]).addTo(olgmap).bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
+olgmap.addLayer(marker);
+    olgmap.addLayer(circles);
+
+
+    
+/*
+if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
+        olgmap.removeLayer(circles);
+      olgmap.removeLayer(marker);
+    } 
+    
+     marker = new L.Marker(e.coords.latitude, e.coords.longitude).bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
+     circles = new L.circle(e.coords.latitude, e.coords.longitude, radius);
+     olgmap.addLayer(marker);
+    olgmap.addLayer(circles);
+*/
+};
+
+
+
+
+//         L.marker([51.473618,11.629522]).addTo(this.get('map_leaflet')).bindPopup("Standort innerhalb 20 Metern").openPopup();
+
+        function showLocation(latlng, title) { 
+//     L.marker([latlng]).addTo(map).bindPopup(title).openPopup();
+    this._markerLoc.setLatLng(latlng);  
+        this._markerLoc.setTitle(title);
+     
+    return this;
+};
         
-        function onLocationFound(e) {
-    var radius = e.accuracy / 2;
-    L.marker(e.latlng).addTo(this.get('map_leaflet'))
-        .bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
-    L.circle(e.latlng, radius).addTo(this.get('map_leaflet'));
-}
+        
+        
+        
+        
+                                
+                        
+                        
+                        
                         
                 var extentControl = L.Control.extend({
                     options: {
@@ -175,11 +235,13 @@ define(function (require) {
 	    var options = {
   enableHighAccuracy: true,
   timeout: 60000,
-  maximumAge: 500
+  maximumAge: 2000
 };
 
+
 function success(pos) {
-  var crd = pos.coords;
+//   var crd = pos.coords;
+  //toDo: ausserhalb der Bounds abfangen!
         map.flyTo([pos.coords.latitude, pos.coords.longitude], 14);
         onLocationFound(pos);
         console.log(watchID);
@@ -201,6 +263,7 @@ function success(pos) {
 function error(err) {
 //   alert(`ERROR(${err.code}): ${err.message}`);
   alert(`Position derzeit nicht verfügbar.`);
+  clearWatch();
 }
 
 watchID = navigator.geolocation.watchPosition(success, error, options);
