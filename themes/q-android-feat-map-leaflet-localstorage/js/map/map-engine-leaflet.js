@@ -115,7 +115,7 @@ define(function (require) {
         
         function onLocationFound(e) {
     var radius = e.accuracy / 2;
-    L.marker(e.latlng)..addTo(this.get('map_leaflet'))
+    L.marker(e.latlng).addTo(this.get('map_leaflet'))
         .bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
     L.circle(e.latlng, radius).addTo(this.get('map_leaflet'));
 }
