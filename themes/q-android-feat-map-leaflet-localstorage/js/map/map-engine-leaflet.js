@@ -97,16 +97,7 @@ define(function (require) {
                     //maxBoundsViscosity: 1,
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(this.get('map_leaflet'));
-                //console.log(L);
-                //this.get('map_leaflet').fitBounds(obj_locations.getBounds());
 
-                /*
-                                L.control.locate({
-                                        strings: {
-                                                    title: "Zeige meine Position"
-                                                    }
-                                                    }).addTo(this.get('map_leaflet'));
-                */
                         var watchID;
                         function clearWatch() {
         if (watchID != null || watchID !== 'undefined') {
@@ -114,8 +105,20 @@ define(function (require) {
 	        console.log('cleared watchID');
             navigator.geolocation.clearWatch(watchID);
             watchID = null;
-        }
-    };
+            $('#olggeolocatebutton').html('<i class="fa fa-street-view" aria-hidden="true"></i>');
+            }
+        };
+    
+    this.get('map_leaflet').on('dragend', () => {
+            clearWatch();
+        });
+        
+        function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+    L.marker(e.latlng)..addTo(this.get('map_leaflet'))
+        .bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
+    L.circle(e.latlng, radius).addTo(this.get('map_leaflet'));
+}
                         
                 var extentControl = L.Control.extend({
                     options: {
@@ -148,18 +151,27 @@ define(function (require) {
                     },
                     onAdd: function (map) {
                         var container = L.DomUtil.create('div', 'extentControl');
-                        $(container).css('cursor', 'pointer');//.css('width', '26px').css('height', '26px').css('outline', '1px black').css('box-shadow','0 1px 5px rgba(0,0,0,0.65)');
+                        $(container).css('cursor', 'pointer');
                         $(container).attr('title', 'Meine Position anzeigen');
+                        $(container).attr('id', 'olggeolocatebutton');
                         $(container).html('<i class="fa fa-street-view" aria-hidden="true"></i>');
+                        
+/*
+                                if (watchID != null || watchID !== 'undefined') {
+	                        $('#olggeolocatebutton').html('<i class="fa fa-circle-o-notch fa-spin fa-fw" aria-hidden="true"></i>');
+	                        }
+	                      else {
+		                      $('#olggeolocatebutton').html('<i class="fa fa-street-view" aria-hidden="true"></i>');
+	                      };
+*/
+	                      
                         $(container).on('click', function () {
-	                        $(container).html('<i class="fa fa-circle-o-notch fa-spin fa-fw" aria-hidden="true"></i>');
 	                        console.log('geo click');
-// 	                        if (watchID !== 'undefined') { navigator.geolocation.clearWatch(watchID);/*  watchID = ''; */ console.log(watchID)};
-    var startPos;
+	                        $(container).html('<i class="fa fa-circle-o-notch fa-spin fa-fw" aria-hidden="true"></i>');
+
+	                            var startPos;
     if (navigator.geolocation) {
-// 	    var options = { enableHighAccuracy: true, maximumAge: 100, timeout: 60000 };
 	    console.log('geo enabled');
-	    
 	    var options = {
   enableHighAccuracy: true,
   timeout: 60000,
@@ -169,10 +181,13 @@ define(function (require) {
 function success(pos) {
   var crd = pos.coords;
         map.flyTo([pos.coords.latitude, pos.coords.longitude], 14);
+        onLocationFound(pos);
         console.log(watchID);
+/*
         setTimeout(function() { 
         $(container).html('<i class="fa fa-street-view" aria-hidden="true"></i>');
     }, 2000);
+*/
 
 /*
 
@@ -184,36 +199,11 @@ function success(pos) {
 }
 
 function error(err) {
-  alert(`ERROR(${err.code}): ${err.message}`);
+//   alert(`ERROR(${err.code}): ${err.message}`);
+  alert(`Position derzeit nicht verfügbar.`);
 }
 
 watchID = navigator.geolocation.watchPosition(success, error, options);
-/*
-navigator.geolocation.getCurrentPosition(onSuccess, onError);
-
-// 	    if (watchID !== 'undefined') {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        startPos = position;
-        console.log(position);
-        console.log('inside geo');
-
-        map.flyTo([position.coords.latitude, position.coords.longitude], 14);
-      }, function(error) {
-        console.log("Error occurred. Error code: "+error.code);
-        // error.code can be:
-        //   0: unknown error
-        //   1: permission denied
-        //   2: position unavailable (error response from locaton provider)
-        //   3: timed out
-      });
-      
-      watchID = navigator.geolocation.watchPosition(function(position) {
-        map.flyTo([position.coords.latitude, position.coords.longitude], 14);
-        console.log('watchPosition: ');
-        console.log(watchID);
-      });
-*/
-//       };
   }; //geolocation end
 
                         });
