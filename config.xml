@@ -26,6 +26,9 @@
 	<preference name="webviewbounce" value="false" />
 
 	<!-- Custom preferences -->
+<preference name="StatusBarBackgroundColor" value="#821220" />
+<preference name="StatusBarDefaultScrollToTop" value="true" />
+
 
 	<!-- PhoneGap plugin declaration -->
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
