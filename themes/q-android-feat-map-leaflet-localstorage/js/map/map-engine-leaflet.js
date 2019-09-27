@@ -131,15 +131,15 @@ console.log(olgmap);
 	        console.log(e.coords.longitude);
 	        console.log(e.coords.accuracy);
 	        console.log(this);
-	        var radius = e.coords.accuracy / 2;
+	        var radius = Math.ceil(e.coords.accuracy / 10)*5;
 
 // L.marker([51.473618,11.629522]).addTo(olgmap).bindPopup("Standort innerhalb 20 Metern").openPopup();
 if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
         olgmap.removeLayer(circles);
       olgmap.removeLayer(marker);
     }  
-         circles = new L.circle([e.coords.latitude, e.coords.longitude], radius);
-marker = new L.marker([e.coords.latitude, e.coords.longitude]).addTo(olgmap).bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
+         circles = new L.circle([e.coords.latitude, e.coords.longitude], radius).bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
+marker = new L.marker([e.coords.latitude, e.coords.longitude]);
 olgmap.addLayer(marker);
     olgmap.addLayer(circles);
 
@@ -158,18 +158,6 @@ if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
 */
 };
 
-
-
-
-//         L.marker([51.473618,11.629522]).addTo(this.get('map_leaflet')).bindPopup("Standort innerhalb 20 Metern").openPopup();
-
-        function showLocation(latlng, title) { 
-//     L.marker([latlng]).addTo(map).bindPopup(title).openPopup();
-    this._markerLoc.setLatLng(latlng);  
-        this._markerLoc.setTitle(title);
-     
-    return this;
-};
         
         
         
@@ -192,7 +180,7 @@ if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
                         $(container).html('<i class="fa fa-map-o" aria-hidden="true"></i>');
                         $(container).on('click', function () {
 	                        clearWatch();
-	                        map.fitBounds(bounds);
+	                        map.flyToBounds(bounds);
                         });
                         return container;
                     }
@@ -242,7 +230,7 @@ if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
 function success(pos) {
 //   var crd = pos.coords;
   //toDo: ausserhalb der Bounds abfangen!
-        map.flyTo([pos.coords.latitude, pos.coords.longitude], 14);
+        map.flyTo([pos.coords.latitude, pos.coords.longitude], 15);
         onLocationFound(pos);
         console.log(watchID);
 /*
