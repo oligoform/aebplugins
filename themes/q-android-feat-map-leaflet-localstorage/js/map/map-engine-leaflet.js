@@ -20,9 +20,6 @@ define(function (require) {
 
     require('theme/js/map/cluster/leaflet.markercluster');
 
-    //require macht PWA Probleme; deshalb test inline js --> klappt auch nicht!
-
-
 
     var MapModel = require('theme/js/map/map-model');
 var olgmap = '';

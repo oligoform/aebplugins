@@ -19,8 +19,8 @@
 	<preference name="buildArchitecture" value="arm" />
 	<preference name="android-build-tool" value="gradle" />
 
-	<!-- <preference name="phonegap-version" value="cli-9.0.0" /> -->
-    <preference name="phonegap-version" value="cli-6.5.0" /> <!--maybe statusbar works again?-->
+	<preference name="phonegap-version" value="cli-9.0.0" />
+    <!-- <preference name="phonegap-version" value="cli-6.5.0" /> maybe statusbar works again? -->
 	<preference name="permissions" value="none"/>
 
 	<preference name="disallowOverscroll" value="true" />
