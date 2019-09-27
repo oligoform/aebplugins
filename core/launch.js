@@ -1,4 +1,7 @@
-require.config({
+		//for testing only!!! Remove for Live
+		localStorage.clear();
+		
+		require.config({
 
     baseUrl: 'vendor',
 
