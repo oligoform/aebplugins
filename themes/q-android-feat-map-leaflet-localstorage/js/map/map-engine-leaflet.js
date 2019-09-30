@@ -78,13 +78,13 @@ var olgmap = '';
                 //Clear all previous map instances:
                 this.remove();
 
-olgmap = L.map(this.get('id'));
+//olgmap = L.map(this.get('id'));
                 var southWest = L.latLng(50.9997, 10.5304),
                     northEast = L.latLng(52.3459, 12.1268),
                     bounds = L.latLngBounds(southWest, northEast);
                 //Initialize Leaflet map:
                 var center = [this.get('map_data').get('center').lat, this.get('map_data').get('center').lng];
-                this.set('map_leaflet', olgmap.setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
+                this.set('map_leaflet', L.map(this.get('id')).setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
                 L.tileLayer('https://am-eisernen-band.de/wp-content/cache/osm-tiles/{s}/{z}/{x}/{y}.png', {
                     zoom: this.get('map_data').get('zoom'),
                     maxZoom: 18,
