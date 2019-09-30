@@ -58,12 +58,13 @@
         <allow-intent href="itms-apps:*" />
     </platform>
 
-<platform name="ios">
-
-<!-- Custom preferences -->
 <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
     <string>Bitte lassen Sie den Zugriff auf Ihren Standort zu, damit wir Ihnen Angebote in Ihrer Nähe zeigen können.</string>
 </edit-config>
+
+<platform name="ios">
+
+<!-- Custom preferences -->
 
 <preference name="BackupWebStorage" value="none" />
 <preference name="iosPersistentFileLocation" value="Library" />
