@@ -9,7 +9,9 @@ define(function (require) {
     var Backbone = require('backbone');
     var App = require('core/theme-app');
     var TemplateTags = require('core/theme-tpl-tags');
-    var _ = require('underscore');
+    var _ = require('underscore'),
+    Utils = require('core/app-utils');
+
     var Config = require('root/config');
     var $ = require('jquery');
     var L = require('theme/leaflet/leaflet');
@@ -82,7 +84,7 @@ olgmap = L.map(this.get('id'));
                     bounds = L.latLngBounds(southWest, northEast);
                 //Initialize Leaflet map:
                 var center = [this.get('map_data').get('center').lat, this.get('map_data').get('center').lng];
-                this.set('map_leaflet', L.map(this.get('id')).setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
+                this.set('map_leaflet', olgmap.setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
                 L.tileLayer('https://am-eisernen-band.de/wp-content/cache/osm-tiles/{s}/{z}/{x}/{y}.png', {
                     zoom: this.get('map_data').get('zoom'),
                     maxZoom: 18,
@@ -249,12 +251,20 @@ function success(pos) {
 
 function error(err) {
 //   alert(`ERROR(${err.code}): ${err.message}`);
-showMessage(`Position derzeit nicht verfügbar.`);
+Utils.log('Geolocation : navigator.geolocation.getCurrentPosition() failed');
+					//cb_error( 'navigator-no-position' );
+alert(`Position derzeit nicht verfügbar.`);
   clearWatch();
 }
 
 watchID = navigator.geolocation.watchPosition(success, error, options);
-  }; //geolocation end
+  }
+  else {
+			// Browser doesn't support Geolocation 
+			// or the PhoneGap geolocation plugin is not installed
+			Utils.log('Geolocation : no support for geolocation');
+			//cb_error( 'no-support-for-geolocation' );
+		}; //geolocation end
 
                         });
                         return container;
