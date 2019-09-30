@@ -32,7 +32,7 @@ var olgmap = '';
     App.on('network:online', function (event) {
         // Get the current network state
         var ns = TemplateTags.getNetworkState(true);
-        //console.log(ns);
+        ////console.log(ns);
         // Display the current network state
 
     });
@@ -82,7 +82,7 @@ olgmap = L.map(this.get('id'));
                     bounds = L.latLngBounds(southWest, northEast);
                 //Initialize Leaflet map:
                 var center = [this.get('map_data').get('center').lat, this.get('map_data').get('center').lng];
-                this.set('map_leaflet', olgmap.setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
+                this.set('map_leaflet', L.map(this.get('id')).setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
                 L.tileLayer('https://am-eisernen-band.de/wp-content/cache/osm-tiles/{s}/{z}/{x}/{y}.png', {
                     zoom: this.get('map_data').get('zoom'),
                     maxZoom: 18,
@@ -92,10 +92,10 @@ olgmap = L.map(this.get('id'));
                     //maxBoundsViscosity: 1,
                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(this.get('map_leaflet'));
-console.log(olgmap);
+////console.log(olgmap);
 /*
-                    console.log("this ");
-                    console.log(this);
+                    //console.log("this ");
+                    //console.log(this);
 */
 //                     var olgmapvar = this.get('map_leaflet');
 
@@ -105,8 +105,8 @@ console.log(olgmap);
                         var watchID;
                         function clearWatch() {
         if (watchID != null || watchID !== 'undefined') {
-	        console.log(watchID); 
-	        console.log('cleared watchID');
+	        //console.log(watchID); 
+	        //console.log('cleared watchID');
             navigator.geolocation.clearWatch(watchID);
             watchID = null;
             $('#olggeolocatebutton').html('<i class="fa fa-street-view" aria-hidden="true"></i>');
@@ -122,20 +122,22 @@ console.log(olgmap);
 		var marker;
         var circles;
         function onLocationFound(e) { //problem with scope. https://stackoverflow.com/questions/18388288/how-do-you-add-marker-to-map-using-leaflet-map-onclick-function-event-handl
-	        console.log('onLocationFound: ');
-	        console.log(e);
-	        console.log(e.coords.latitude);
-	        console.log(e.coords.longitude);
-	        console.log(e.coords.accuracy);
-	        console.log(this);
-	        var radius = Math.ceil(e.coords.accuracy / 10)*5;
+	        // //console.log('onLocationFound: ');
+	        // //console.log(e);
+	        // //console.log(e.coords.latitude);
+	        // //console.log(e.coords.longitude);
+	        // //console.log(e.coords.accuracy);
+	        // //console.log(this);
+	        var radius = e.coords.accuracy / 2;
+            var radiustext = Math.ceil(radius / 5) * 5;
+
 
 // L.marker([51.473618,11.629522]).addTo(olgmap).bindPopup("Standort innerhalb 20 Metern").openPopup();
 if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
         olgmap.removeLayer(circles);
       olgmap.removeLayer(marker);
     }  
-         circles = new L.circle([e.coords.latitude, e.coords.longitude], radius).bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
+         circles = new L.circle([e.coords.latitude, e.coords.longitude], radius).bindPopup("Standort innerhalb " + radiustext + " Metern").openPopup();
 marker = new L.marker([e.coords.latitude, e.coords.longitude]);
 olgmap.addLayer(marker);
     olgmap.addLayer(circles);
@@ -211,12 +213,12 @@ if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
 */
 	                      
                         $(container).on('click', function () {
-	                        console.log('geo click');
+	                        //console.log('geo click');
 	                        $(container).html('<i class="fa fa-circle-o-notch fa-spin fa-fw" aria-hidden="true"></i>');
 
 	                            var startPos;
     if (navigator.geolocation) {
-	    console.log('geo enabled');
+	    //console.log('geo enabled');
 	    var options = {
   enableHighAccuracy: true,
   timeout: 60000,
@@ -229,7 +231,7 @@ function success(pos) {
   //toDo: ausserhalb der Bounds abfangen!
         map.flyTo([pos.coords.latitude, pos.coords.longitude], 15);
         onLocationFound(pos);
-        console.log(watchID);
+        //console.log(watchID);
 /*
         setTimeout(function() { 
         $(container).html('<i class="fa fa-street-view" aria-hidden="true"></i>');
@@ -247,7 +249,7 @@ function success(pos) {
 
 function error(err) {
 //   alert(`ERROR(${err.code}): ${err.message}`);
-  alert(`Position derzeit nicht verfügbar.`);
+showMessage(`Position derzeit nicht verfügbar.`);
   clearWatch();
 }
 
@@ -327,7 +329,7 @@ watchID = navigator.geolocation.watchPosition(success, error, options);
                     return JSON.parse(angebote);
 
                 }).then(data => {
-                    //console.log(data);
+                    ////console.log(data);
                     let geojsonString = ' {"type": "FeatureCollection", "features": [ ';
                     data.forEach(function (entry, index) {
 
@@ -343,8 +345,8 @@ watchID = navigator.geolocation.watchPosition(success, error, options);
                             let anfahrt = "<a title='Route von hier mit Google-Maps in neuem Fenster' target='_blank' href='https://maps.google.com/maps?daddr=" + entry[arrayId].location.lat + "," + entry[arrayId].location.lon + "&amp;saddr='> <i class='fa fa-map-signs' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Route </span></a>";
                             
                             let category = entry[arrayId].categories !== null ? entry[arrayId].categories[0]/* .slug */ : ''; //ToDo: fix error & set first cat as class for popup - later as type for feature
-                            // console.log(category);
-                            // console.log(entry[arrayId].id + ' ID: ' + index);
+                            // //console.log(category);
+                            // //console.log(entry[arrayId].id + ' ID: ' + index);
 
                             let email = entry[arrayId].email !== "" ? ` <a href='mailto: ${entry[arrayId].email}'><i class='fa fa-envelope-o' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Email</span> </a>` : ''; //TemplateString MM
                             let telefonnummer = entry[arrayId].telefonnummer !== "" ? "<a href='tel://"+ entry[arrayId].telefonnummer+"'><i class='fa fa-phone' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Telefon: </span>" + entry[arrayId].telefonnummer + "</a>" : '';
@@ -359,7 +361,7 @@ watchID = navigator.geolocation.watchPosition(success, error, options);
                     geojsonString = geojsonString.replace(/,\s*$/, "");
 
                     geojsonString += ']}';
-                            //console.log(geojsonString)
+                            ////console.log(geojsonString)
 
                    return geojsonString;
 
@@ -381,7 +383,7 @@ watchID = navigator.geolocation.watchPosition(success, error, options);
 
                 }).catch(err => {
                     // // Do something for an error here
-                    console.log('error')
+                    //console.log('error')
                 });
 
 
