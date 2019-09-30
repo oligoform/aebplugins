@@ -78,13 +78,13 @@ var olgmap = '';
                 //Clear all previous map instances:
                 this.remove();
 
-//olgmap = L.map(this.get('id'));
+olgmap = L.map(this.get('id'));
                 var southWest = L.latLng(50.9997, 10.5304),
                     northEast = L.latLng(52.3459, 12.1268),
                     bounds = L.latLngBounds(southWest, northEast);
                 //Initialize Leaflet map:
                 var center = [this.get('map_data').get('center').lat, this.get('map_data').get('center').lng];
-                this.set('map_leaflet', L.map(this.get('id')).setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
+                this.set('map_leaflet', olgmap.setView(center, this.get('map_data').get('zoom')).setMaxBounds(bounds));
                 L.tileLayer('https://am-eisernen-band.de/wp-content/cache/osm-tiles/{s}/{z}/{x}/{y}.png', {
                     zoom: this.get('map_data').get('zoom'),
                     maxZoom: 18,
@@ -133,31 +133,15 @@ var olgmap = '';
 	        var radius = e.coords.accuracy / 2;
             var radiustext = Math.ceil(radius / 5) * 5;
 
-
-// L.marker([51.473618,11.629522]).addTo(olgmap).bindPopup("Standort innerhalb 20 Metern").openPopup();
 if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
         olgmap.removeLayer(circles);
       olgmap.removeLayer(marker);
     }  
          circles = new L.circle([e.coords.latitude, e.coords.longitude], radius).bindPopup("Standort innerhalb " + radiustext + " Metern").openPopup();
-marker = new L.marker([e.coords.latitude, e.coords.longitude]);
-olgmap.addLayer(marker);
-    olgmap.addLayer(circles);
-
-
-    
-/*
-if(olgmap.hasLayer(circles) && olgmap.hasLayer(marker)) {
-        olgmap.removeLayer(circles);
-      olgmap.removeLayer(marker);
-    } 
-    
-     marker = new L.Marker(e.coords.latitude, e.coords.longitude).bindPopup("Standort innerhalb " + radius + " Metern").openPopup();
-     circles = new L.circle(e.coords.latitude, e.coords.longitude, radius);
-     olgmap.addLayer(marker);
-    olgmap.addLayer(circles);
-*/
-};
+         marker = new L.marker([e.coords.latitude, e.coords.longitude]);
+         olgmap.addLayer(marker);
+         olgmap.addLayer(circles);
+         };
 
         
         
