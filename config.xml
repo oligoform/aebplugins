@@ -62,6 +62,10 @@
     <string>Bitte lassen Sie den Zugriff auf Ihren Standort zu, damit wir Ihnen Angebote in Ihrer Nähe zeigen können.</string>
 </edit-config>
 
+<edit-config target="NSLocationAlwaysUsageDescription" file="*-Info.plist" mode="merge">
+    <string>Bitte lassen Sie den Zugriff auf Ihren Standort zu, damit wir Ihnen Angebote in Ihrer Nähe zeigen können.</string>
+</edit-config>
+
 <platform name="ios">
 
 <!-- Custom preferences -->
