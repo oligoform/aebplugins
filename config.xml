@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.oligoform.ameisernenband"
         versionCode = ""
-        version     = "1.9" >
+        version     = "2.0" >
 
 	<name>Am Eisernen Band</name>
 
