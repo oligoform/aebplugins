@@ -7,7 +7,7 @@ define( function ( require ) {
 		wp_ws_url : 'https://am-eisernen-band.de/wp-appkit-api/am-eisernen-band',
 		wp_url : 'https://am-eisernen-band.de',
 		theme : 'q-android-feat-map-leaflet-localstorage',
-		version : '2.1',
+		version : '2.2',
 		app_type : 'phonegap-build',
 		app_title : 'Am Eisernen Band',
 		app_platform : 'ios',
