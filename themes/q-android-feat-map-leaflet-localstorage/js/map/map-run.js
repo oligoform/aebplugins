@@ -9,7 +9,7 @@ define([
     'core/theme-app',
     'theme/js/map/map-engine-leaflet',
         ], function($,App,Map) {
-
+            alert('Initialize leaflet map object with default values');
         //Initialize leaflet map object with default values
         var southWest = L.latLng(50.34971801127329, 10.530405564491431),
         northEast = L.latLng(52.345956148393554, 12.126833777143432),
