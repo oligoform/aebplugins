@@ -7,12 +7,12 @@ define(function (require) {
     "use strict";
 
     var Backbone = require('backbone');
-    var App = require('core/theme-app');
-    var TemplateTags = require('core/theme-tpl-tags');
+    // var App = require('core/theme-app');
+    // var TemplateTags = require('core/theme-tpl-tags');
     var _ = require('underscore'),
-    Utils = require('core/app-utils');
+    // Utils = require('core/app-utils');
 
-    var Config = require('root/config');
+    // var Config = require('root/config');
     var $ = require('jquery');
     var L = require('theme/leaflet/leaflet');
     //var L = require(['theme/leaflet/leaflet', 'theme/js/map/search/leaflet-search']);
@@ -25,19 +25,6 @@ define(function (require) {
 
     var MapModel = require('theme/js/map/map-model');
 var olgmap = '';
-
-
-    // test locate inline
-    //test locate end
-
-
-    App.on('network:online', function (event) {
-        // Get the current network state
-        var ns = TemplateTags.getNetworkState(true);
-        ////console.log(ns);
-        // Display the current network state
-
-    });
 
 
     return Backbone.Model.extend({
@@ -235,7 +222,7 @@ function success(pos) {
 
 function error(err) {
 //   alert(`ERROR(${err.code}): ${err.message}`);
-Utils.log('Geolocation : navigator.geolocation.getCurrentPosition() failed');
+// Utils.log('Geolocation : navigator.geolocation.getCurrentPosition() failed');
 					//cb_error( 'navigator-no-position' );
 alert(`Position derzeit nicht verfügbar.`);
   clearWatch();
@@ -246,7 +233,7 @@ watchID = navigator.geolocation.watchPosition(success, error, options);
   else {
 			// Browser doesn't support Geolocation 
 			// or the PhoneGap geolocation plugin is not installed
-			Utils.log('Geolocation : no support for geolocation');
+			// Utils.log('Geolocation : no support for geolocation');
 			//cb_error( 'no-support-for-geolocation' );
 		}; //geolocation end
 

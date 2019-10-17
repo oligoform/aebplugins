@@ -33,7 +33,10 @@
 
 html,body {
 	height: 100%;
-	margin: 0px;
+  margin: 0px;
+  
+  padding-top: constant(safe-area-inset-top); /*https://stackoverflow.com/questions/46232812/cordova-app-not-displaying-correctly-on-iphone-x-simulator/46232813#46232813*/
+    padding-top: env(safe-area-inset-top);
 }
 
 body {
@@ -41,9 +44,6 @@ body {
 	-webkit-text-size-adjust: 100%;         /* Blocks text auto-scaling (eg. when switching from portrait to landscape) */
 	-webkit-font-smoothing: antialiased;    /* Enhances font aliasing */
   font-family: "Roboto",sans-serif;
-
-  padding-top: constant(safe-area-inset-top); /*https://stackoverflow.com/questions/46232812/cordova-app-not-displaying-correctly-on-iphone-x-simulator/46232813#46232813*/
-    padding-top: env(safe-area-inset-top);
 }
 
 a {
