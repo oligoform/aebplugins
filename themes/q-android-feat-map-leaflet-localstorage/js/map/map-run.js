@@ -2,8 +2,8 @@
  * Plug map logic into the app.
  * (Require this map-run.js file in functions.js)
  */
-setTimeout (function() {
-alert('timeout 2s');
+// setTimeout (function() {
+// alert('timeout 2s');
 define([
     'jquery',
     'core/theme-app',
@@ -51,5 +51,5 @@ define([
 
 });
 
-},
-1200);
+// },
+// 1200);
