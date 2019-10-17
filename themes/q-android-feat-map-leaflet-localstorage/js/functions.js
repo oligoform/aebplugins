@@ -25,7 +25,7 @@ define([
     'theme/js/moment.min',
     'theme/js/velocity.min',
     'theme/js/jquery.fitvids',
-    // 'theme/js/map/map-run'
+    'theme/js/map/map-run'
     ], function($,App,Storage,TemplateTags,Config,Moment,Velocity) {
 
 

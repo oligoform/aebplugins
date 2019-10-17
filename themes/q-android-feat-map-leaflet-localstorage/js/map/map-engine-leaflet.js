@@ -3,6 +3,7 @@
  */
 
 define(function (require) {
+    alert('map-egine-leaflet.js loaded');
 
     "use strict";
 
