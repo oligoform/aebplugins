@@ -13,7 +13,7 @@ define([
         northEast = L.latLng(52.345956148393554, 12.126833777143432),
         bounds = L.latLngBounds(southWest, northEast);
 
-		
+		alert('map run executed');
         var MyMap = new Map({
             id:"map",
             default_data: {

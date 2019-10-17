@@ -161,7 +161,7 @@ require(['root/config'],function(Config){
 
                                                                 App.setIsLaunching( false );
 															},
-															true //true to force refresh local storage at each app launch.
+															false //true to force refresh local storage at each app launch.
 														);
 
 													}
