@@ -49,7 +49,6 @@ define(function (require,exports) {
 	 * @param {JSON Object} data Data that is passed to event callback
 	 */
 	app.triggerInfo = function( info, info_data, info_callback ) {
-
 		switch ( info ) {
 
 			case 'no-content':
