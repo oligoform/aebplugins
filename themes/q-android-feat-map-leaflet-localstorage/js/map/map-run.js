@@ -8,7 +8,7 @@ define([
     'jquery',
     'core/theme-app',
     'theme/js/map/map-engine-leaflet',
-    ], setTimeout (function($,App,Map) {
+        ], function($,App,Map) {
 
         //Initialize leaflet map object with default values
         var southWest = L.latLng(50.34971801127329, 10.530405564491431),
