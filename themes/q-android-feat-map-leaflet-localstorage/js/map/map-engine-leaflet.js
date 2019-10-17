@@ -54,6 +54,8 @@ var olgmap = '';
          * Initialize map data and leaflet map
          */
         initMap: function () {
+                alert('initMap');
+            
             if (!this.isMapActive() && $('#' + this.get('id')).length) {
                 //Instanciate new map model:
                 this.set('map_data', new MapModel(_.extend({

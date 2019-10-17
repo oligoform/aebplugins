@@ -48,6 +48,7 @@ define([
             }
 
         } );
+        alert(' END Initialize leaflet map object with default values');
 
 });
 
