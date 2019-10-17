@@ -2,18 +2,19 @@
  * Plug map logic into the app.
  * (Require this map-run.js file in functions.js)
  */
+
+
 define([
     'jquery',
     'core/theme-app',
     'theme/js/map/map-engine-leaflet',
-    ], function($,App,Map) {
+    ], setTimeout (function($,App,Map) {
 
         //Initialize leaflet map object with default values
         var southWest = L.latLng(50.34971801127329, 10.530405564491431),
         northEast = L.latLng(52.345956148393554, 12.126833777143432),
         bounds = L.latLngBounds(southWest, northEast);
 
-		alert('map run executed');
         var MyMap = new Map({
             id:"map",
             default_data: {
@@ -48,4 +49,5 @@ define([
 
         } );
 
-});
+}),
+2000);
