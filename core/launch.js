@@ -77,7 +77,7 @@ require(['root/config'],function(Config){
 											 * But when implementing a theme with a 'page' template, it is recommended to 
 											 * preload it with the following 'preloaded-templates'.
 											 */
-											var preloaded_templates = ['single','archive'];
+											var preloaded_templates = ['single','archive','page','map'];
 											
 											/**
 											 * Define templates that are preloaded so that we don't have any delay
