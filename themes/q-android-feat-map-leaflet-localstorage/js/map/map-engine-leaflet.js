@@ -9,11 +9,8 @@ define(function (require) {
     var Backbone = require('backbone');
     var _ = require('underscore');
     var $ = require('jquery');
-    var L = require('theme/leaflet/leaflet');
-    //var L = require(['theme/leaflet/leaflet', 'theme/js/map/search/leaflet-search']);
-    //require('theme/js/map/search/leaflet-search');   
-    //var Locate = require('theme/js/map/locateControl/L.Control.Locate');
-    //require('theme/js/map/locateControl/L.Control.Locate');
+    var L = require('leaflet');
+    var LeafletSearch = require("leaflet-search");
 
     require('theme/js/map/cluster/leaflet.markercluster');
 
@@ -138,7 +135,7 @@ define(function (require) {
                         e.preventDefault();
                     }
 
-                    return readMoreText.outerHTML.replace(/["]/g, "'" );
+                    return readMoreText.outerHTML.replace(/["]/g, "'");
 
                 }
 
@@ -152,17 +149,17 @@ define(function (require) {
 
 
                         if (angebotObj.angebote) {
-                            if (angebotObj.angebote.length === 1) { 
-                            
+                            if (angebotObj.angebote.length === 1) {
+
                                 let angeboteAbfrage = JSON.parse(localStorage.getItem('Items-posts-' + angebotObj.angebote));
                                 let angebotOrt = Object.assign(angeboteOrte, angeboteAbfrage);
                                 angebote += `{"${angebotObj.angebote}": ${JSON.stringify(angebotOrt)}},`;
                             } else {
 
-                                angebotObj.angebote.forEach (element => {
+                                angebotObj.angebote.forEach(element => {
                                     let angeboteAbfrage = JSON.parse(localStorage.getItem('Items-posts-' + element));
                                     let angebotOrt = Object.assign(angeboteOrte, angeboteAbfrage);
-                                    angebote += `{"${angebotObj.angebote}": ${JSON.stringify(angebotOrt)}},`;                                    
+                                    angebote += `{"${angebotObj.angebote}": ${JSON.stringify(angebotOrt)}},`;
                                 });
                             }
                         }
@@ -188,27 +185,27 @@ define(function (require) {
                             let location_region = entry[arrayId].address.region !== null ? entry[arrayId].address.region + '<br />' : '';
                             let barrierefrei = entry[arrayId].barrierefrei === '1' ? "<i class='fa fa-wheelchair' aria-hidden='true'></i> barrierefrei <br />" : "";
                             let anfahrt = "<a title='Route von hier mit Google-Maps in neuem Fenster' target='_blank' href='https://maps.google.com/maps?daddr=" + entry[arrayId].location.lat + "," + entry[arrayId].location.lon + "&amp;saddr='> <i class='fa fa-map-signs' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Route </span></a>";
-                            
+
                             let category = entry[arrayId].categories !== null ? entry[arrayId].categories[0]/* .slug */ : ''; //ToDo: fix error & set first cat as class for popup - later as type for feature
                             // console.log(category);
                             // console.log(entry[arrayId].id + ' ID: ' + index);
 
                             let email = entry[arrayId].email !== "" ? ` <a href='mailto: ${entry[arrayId].email}'><i class='fa fa-envelope-o' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Email</span> </a>` : ''; //TemplateString MM
-                            let telefonnummer = entry[arrayId].telefonnummer !== "" ? "<a href='tel://"+ entry[arrayId].telefonnummer+"'><i class='fa fa-phone' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Telefon: </span>" + entry[arrayId].telefonnummer + "</a>" : '';
+                            let telefonnummer = entry[arrayId].telefonnummer !== "" ? "<a href='tel://" + entry[arrayId].telefonnummer + "'><i class='fa fa-phone' aria-hidden='true'></i> <span class='sr-only sr-only-focusable'> Telefon: </span>" + entry[arrayId].telefonnummer + "</a>" : '';
                             let frei = getMoreContent(location_id, arrayId, entry[arrayId].freitext);
                             let popupContent = `<div id='${location_id}'><b>${location_name}</b> <br /> ${location_address} <br /> ${location_postcode} ${location_region}${barrierefrei}${telefonnummer} <footer>${email} ${anfahrt} ${frei}</footer> </div>`; //olg test 20190815
 
                             geojsonString += `{"type":"Feature","properties": {"name": "${location_name}", "popupContent": "${popupContent}" },
                        "geometry": {"type": "Point","coordinates": [${entry[arrayId].location.lon}, ${entry[arrayId].location.lat}]}},`;
 
-                    }
+                        }
                     })
                     geojsonString = geojsonString.replace(/,\s*$/, "");
 
                     geojsonString += ']}';
-                            //console.log(geojsonString)
+                    //console.log(geojsonString)
 
-                   return geojsonString;
+                    return geojsonString;
 
                 }).then(data => {
                     var obj = JSON.parse(data);
@@ -223,6 +220,16 @@ define(function (require) {
                         onEachFeature: onEachFeature
                     }))
                     this.get('map_leaflet').addLayer(mcg)
+
+                    var dataLayer = L.layerGroup(markers).addTo(this.get('map_leaflet'));
+
+                    new LeafletSearch({
+                        layer: dataLayer,
+                        initial: false,
+                        zoom: 12
+                    }).addTo(this.get('map_leaflet'));
+
+
 
                     mcg.on('popupopen', function (popup) {
                         let myModalString = `<div class="modal" id="my-modal"><div id="close-button"></div></div>`

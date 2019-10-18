@@ -9,9 +9,9 @@ require.config({
 		lang: '../lang',
 		addons: '../addons',
 		leaflet: '../themes/q-android-feat-map-leaflet-localstorage/js/leaflet',
-		markercluster: '../themes/q-android-feat-map-leaflet-localstorage/js/map/cluster/leaflet.markercluster',
-		locate: '../themes/q-android-feat-map-leaflet-localstorage/js/map/locateControl/L.Control.Locate',
-		search: '../themes/q-android-feat-map-leaflet-localstorage/js/map/search/leaflet-search',
+		"leaflet.markercluster": '../themes/q-android-feat-map-leaflet-localstorage/js/map/cluster/leaflet.markercluster',
+		"L.Control.Locate": '../themes/q-android-feat-map-leaflet-localstorage/js/map/locateControl/L.Control.Locate',
+		"leaflet-search": '../themes/q-android-feat-map-leaflet-localstorage/js/map/search/leaflet-search',
         root: '..'
     },
 
@@ -26,13 +26,13 @@ require.config({
 		 'leaflet': {
             exports: 'L'
         }, 
-        'markercluster': {
+        "leaflet.markercluster": {
             deps: ['leaflet']
         }, 
-        'locate': {
+        "L.Control.Locate": {
             deps: ['leaflet']
         }, 
-        'search': {
+        "leaflet-search": {
             deps: ['leaflet']
         }
     }
