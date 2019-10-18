@@ -8,6 +8,10 @@ require.config({
         core: '../core',
 		lang: '../lang',
 		addons: '../addons',
+		leaflet: '../themes/q-android-feat-map-leaflet-localstorage/js/leaflet',
+		markercluster: '../themes/q-android-feat-map-leaflet-localstorage/js/map/cluster/leaflet.markercluster',
+		locate: '../themes/q-android-feat-map-leaflet-localstorage/js/map/locateControl/L.Control.Locate',
+		search: '../themes/q-android-feat-map-leaflet-localstorage/js/map/search/leaflet-search',
         root: '..'
     },
 
@@ -18,7 +22,19 @@ require.config({
         },
         'underscore': {
             exports: '_'
-		}
+		},
+		 'leaflet': {
+            exports: 'L'
+        }, 
+        'markercluster': {
+            deps: ['leaflet']
+        }, 
+        'locate': {
+            deps: ['leaflet']
+        }, 
+        'search': {
+            deps: ['leaflet']
+        }
     }
 });
 

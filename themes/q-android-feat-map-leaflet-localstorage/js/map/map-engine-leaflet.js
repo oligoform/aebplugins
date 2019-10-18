@@ -7,10 +7,7 @@ define(function (require) {
     "use strict";
 
     var Backbone = require('backbone');
-    var App = require('core/theme-app');
-    var TemplateTags = require('core/theme-tpl-tags');
     var _ = require('underscore');
-    var Config = require('root/config');
     var $ = require('jquery');
     var L = require('theme/leaflet/leaflet');
     //var L = require(['theme/leaflet/leaflet', 'theme/js/map/search/leaflet-search']);
@@ -20,24 +17,8 @@ define(function (require) {
 
     require('theme/js/map/cluster/leaflet.markercluster');
 
-    //require macht PWA Probleme; deshalb test inline js --> klappt auch nicht!
-
-
 
     var MapModel = require('theme/js/map/map-model');
-
-
-    // test locate inline
-    //test locate end
-
-
-    App.on('network:online', function (event) {
-        // Get the current network state
-        var ns = TemplateTags.getNetworkState(true);
-        //console.log(ns);
-        // Display the current network state
-
-    });
 
 
     return Backbone.Model.extend({
@@ -140,6 +121,7 @@ define(function (require) {
                 //Collect all Posts from orte
 
                 let locationIDs = new Promise((resolve, reject) => {
+                    //get all Ids
                     let value = JSON.parse(localStorage.getItem("Components-am-eisernen-band-orte")).data.ids
                     resolve(value);
                 })
@@ -156,7 +138,6 @@ define(function (require) {
                         e.preventDefault();
                     }
 
-                    var wrapperPopupContent = document.getElementById(id);
                     return readMoreText.outerHTML.replace(/["]/g, "'" );
 
                 }
@@ -264,80 +245,6 @@ define(function (require) {
                         function removeModal() {
                             myModal.classList.remove("show-modal");
                         }
-
-
-
-/*                          $(".readmore").click(function (event) {
-                           event.preventDefault();
-
-                            var locationsCached = fetchedData;
-
-                          // console.log(fetchedData)
-                             var getId = $(this).data('id');
-
-                             function windowOnClick(event) {
-                                if (event.target === myModal) {
-                                    removeModal();
-                                }
-                             }
-
-
-                             locationsCached.forEach(function (entry, index) {
-                                 let arrayId = Object.keys(entry)[0];
-
-                                 closeButton.addEventListener("click", toggleModal);
-                                 window.addEventListener("click", windowOnClick);
-                                 if (arrayId == getId) {
-
-                                     let text = entry[arrayId].freitext;
-                                     let email = entry[arrayId].email !== "" ? '<a title="E-Mail" class="email" href="mailto:' + entry[arrayId].email + '"><i class="fa fa-envelope-o" aria-hidden="true"></i> ' + entry[arrayId].email + '</a><br/>' : '';
-                                     let linkname = entry[arrayId].linkname !== "" ? entry[arrayId].linkname : entry[arrayId].link_zum_produkt;
-                                     let link = entry[arrayId].link_zum_produkt;
-                                     let location_address = entry[arrayId].locations !== "" ? entry[arrayId].locations.location_address.replace(/["]/g, "'") : '';
-                                     let location_postcode = entry[arrayId].locations !== "" ? entry[arrayId].locations.location_postcode + ' ' : '';
-                                     let location_region = entry[arrayId].locations !== "" ? entry[arrayId].locations.location_region : '';
-                                     let theTitle = entry[arrayId].title !== "" ? entry[arrayId].title.replace(/["]/g, "'") : '';
-                                     let barrierefrei = entry[arrayId].barrierefrei === '1' ? 'barrierefrei <br />' : '';
-                                     let telefonnummer = entry[arrayId].telefonnummer !== "" ? ' <a href=tel:"' + entry[arrayId].telefonnummer.replace(/[ ]/g, "") + '"> <i class="fa fa-phone-square" aria-hidden="true"></i> ' + entry[arrayId].telefonnummer + '</a>' : '';
-                                     let olggeo = ' <a class="mapsgeolink text-center" href="https://maps.google.com/maps?daddr=' + entry[arrayId].locations.location_latitude + ',' + entry[arrayId].locations.location_longitude + '&amp;saddr="><i class="fa fa-map-marker" aria-hidden="true"></i> Route hierhin</a> ';
-                                     //olg test 20190820
-
-                                     // kategorien
-                                     // Name und addresse (strasse PLZ Ort)
-                                     // Telefon
-                                     // 
-
-
-                                     if (link && link != '') {
-                                         link = '<a href="' + link + '" target="_blank">' + linkname + '</a>';
-                                 }
-
-
-                                     modalContent.innerHTML = '<h3>' + theTitle + '</h3>';
-                                     modalContent.innerHTML += location_address + '<br>';
-                                    modalContent.innerHTML += location_postcode;
-                                     modalContent.innerHTML += location_region + '<br>';
-                                     modalContent.innerHTML += olggeo + '<br>';
-                                     modalContent.innerHTML += text;
-                                     modalContent.innerHTML += email;
-                                     modalContent.innerHTML += telefonnummer + '<br>';
-                                     modalContent.innerHTML += link + '<br>';
-                                     modalContent.innerHTML += barrierefrei;
-                                     modalContent.innerHTML += '<br>';
-
-                                     addModal();
-                                 }
-
-                                 myModal.appendChild(closeButton);
-                                 myModal.appendChild(modalContent);
-                                 document.body.appendChild(myModal);
-
-                             })
-
-
-
-
-                         }); */
 
                     });
 
