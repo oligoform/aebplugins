@@ -14,7 +14,7 @@ define(function (require) {
     // Utils = require('core/app-utils');
 
     // var Config = require('root/config');
-    var $ = require('jquery');
+    //var $ = require('jquery'); //test android debug: Uncaught SyntaxError: Unexpected token var
     var L = require('theme/leaflet/leaflet');
     //var L = require(['theme/leaflet/leaflet', 'theme/js/map/search/leaflet-search']);
     //require('theme/js/map/search/leaflet-search');   
