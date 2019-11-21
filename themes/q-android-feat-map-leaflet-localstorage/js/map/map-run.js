@@ -26,6 +26,7 @@ define([
                 maxBoundsViscosity: 1, 
             }
         });
+        alert(' END Initialize leaflet map object with default values');
 
         //Create a custom screen for our map, with id "map" and template "map.html":
         App.addCustomRoute( 'map', 'map' );
@@ -48,8 +49,6 @@ define([
             }
 
         } );
-        alert(' END Initialize leaflet map object with default values');
-
 });
 
 // },
